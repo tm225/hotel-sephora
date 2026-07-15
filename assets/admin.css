@@ -1,0 +1,116 @@
+/* ============================================================
+   Sephora Hotel — Styles de l'espace admin (admin.html uniquement)
+   Réutilise les variables de couleur définies dans style.css
+   ============================================================ */
+
+.admin-body{
+  min-height:100vh;
+  background:var(--navy-deep);
+  font-family:'Work Sans', sans-serif;
+  color:var(--cream);
+}
+
+.admin-shell{max-width:1080px; margin:0 auto; padding:40px clamp(16px,4vw,40px) 80px;}
+
+.admin-header{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:16px; margin-bottom:36px; flex-wrap:wrap;
+}
+.admin-header h1{
+  font-family:'Fraunces',serif; font-weight:600;
+  font-size:clamp(1.4rem,3vw,1.9rem); color:#fff;
+}
+.admin-header .brand-sub{color:var(--teal); font-size:.8rem; letter-spacing:.08em; text-transform:uppercase;}
+
+.admin-btn{
+  font-family:inherit; font-weight:600; font-size:.85rem;
+  padding:10px 20px; border-radius:100px; border:none; cursor:pointer;
+  background:var(--coral); color:#fff; transition:transform .2s ease;
+}
+.admin-btn:hover{transform:translateY(-2px);}
+.admin-btn.ghost{background:transparent; border:1px solid rgba(251,245,234,.3); color:var(--cream);}
+.admin-btn.small{padding:7px 14px; font-size:.75rem;}
+
+/* ---------- login screen ---------- */
+.admin-login{
+  max-width:380px; margin:12vh auto; padding:40px 32px;
+  background:rgba(251,245,234,.05); border:1px solid rgba(251,245,234,.14);
+  border-radius:24px; text-align:center;
+}
+.admin-login h1{font-family:'Fraunces',serif; color:#fff; margin-bottom:8px; font-size:1.5rem;}
+.admin-login p.sub{color:rgba(251,245,234,.6); font-size:.85rem; margin-bottom:28px;}
+.admin-login .field{text-align:left; margin-bottom:16px;}
+.admin-login label{
+  display:block; font-size:.7rem; text-transform:uppercase; letter-spacing:.1em;
+  color:var(--teal); font-weight:700; margin-bottom:6px;
+}
+.admin-login input{
+  width:100%; background:rgba(251,245,234,.08); border:1px solid rgba(251,245,234,.2);
+  border-radius:10px; padding:12px 14px; color:#fff; font-size:.92rem; font-family:inherit;
+}
+.admin-login input:focus{outline:none; border-color:var(--mustard);}
+.admin-login button{width:100%; margin-top:8px; padding:13px;}
+.admin-login .err{color:var(--coral); font-size:.82rem; margin-top:14px; min-height:1.2em;}
+
+/* ---------- tabs ---------- */
+.admin-tabs{display:flex; gap:8px; margin-bottom:28px; border-bottom:1px solid rgba(251,245,234,.14);}
+.admin-tab{
+  font-family:inherit; background:none; border:none; cursor:pointer;
+  color:rgba(251,245,234,.55); font-size:.92rem; font-weight:600;
+  padding:10px 4px; margin-right:20px; border-bottom:2px solid transparent;
+}
+.admin-tab.active{color:#fff; border-bottom-color:var(--coral);}
+
+/* ---------- reservations ---------- */
+.res-item{
+  background:rgba(251,245,234,.05); border:1px solid rgba(251,245,234,.12);
+  border-radius:16px; padding:18px 20px; margin-bottom:14px;
+  display:grid; grid-template-columns:1fr auto; gap:14px; align-items:start;
+}
+.res-item h3{font-family:'Fraunces',serif; color:#fff; font-size:1.05rem; margin-bottom:6px;}
+.res-item .meta{color:rgba(251,245,234,.65); font-size:.82rem; line-height:1.7;}
+.res-item .meta b{color:var(--cream);}
+.res-item select{
+  background:rgba(251,245,234,.1); border:1px solid rgba(251,245,234,.25);
+  color:#fff; border-radius:8px; padding:8px 10px; font-family:inherit; font-size:.82rem;
+}
+.res-badge{
+  display:inline-block; font-size:.68rem; font-weight:700; text-transform:uppercase;
+  letter-spacing:.06em; padding:4px 10px; border-radius:100px; margin-top:6px;
+}
+.res-badge.nouvelle{background:rgba(232,169,60,.18); color:var(--mustard);}
+.res-badge.confirmee{background:rgba(30,140,130,.2); color:var(--teal);}
+.res-badge.annulee{background:rgba(214,72,63,.2); color:var(--coral);}
+
+/* ---------- chambres editor ---------- */
+.chambre-edit{
+  background:rgba(251,245,234,.05); border:1px solid rgba(251,245,234,.12);
+  border-radius:18px; padding:22px; margin-bottom:20px;
+  display:grid; grid-template-columns:160px 1fr; gap:20px;
+}
+.chambre-edit .photo-col{display:flex; flex-direction:column; gap:10px; align-items:center;}
+.chambre-edit .photo-col img{
+  width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px;
+  border:1px solid rgba(251,245,234,.2);
+}
+.chambre-edit label{
+  display:block; font-size:.68rem; text-transform:uppercase; letter-spacing:.1em;
+  color:var(--teal); font-weight:700; margin:12px 0 5px;
+}
+.chambre-edit label:first-child{margin-top:0;}
+.chambre-edit input, .chambre-edit textarea{
+  width:100%; background:rgba(251,245,234,.08); border:1px solid rgba(251,245,234,.2);
+  border-radius:8px; padding:10px 12px; color:#fff; font-size:.88rem; font-family:inherit;
+}
+.chambre-edit input:focus, .chambre-edit textarea:focus{outline:none; border-color:var(--mustard);}
+.chambre-edit .row2{display:grid; grid-template-columns:1fr 140px; gap:14px;}
+.chambre-save-msg{font-size:.78rem; margin-top:10px; font-weight:600; min-height:1.2em;}
+.chambre-save-msg.ok{color:var(--teal);}
+.chambre-save-msg.err{color:var(--coral);}
+
+@media (max-width:640px){
+  .chambre-edit{grid-template-columns:1fr;}
+  .chambre-edit .photo-col{flex-direction:row;}
+  .chambre-edit .photo-col img{width:90px; height:90px;}
+  .res-item{grid-template-columns:1fr;}
+}
