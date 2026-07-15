@@ -485,3 +485,54 @@ footer{background:var(--navy-deep); border-top:1px solid rgba(251,245,234,.1); p
   0%,100%{box-shadow:0 14px 30px rgba(214,72,63,.5);}
   50%{box-shadow:0 14px 30px rgba(214,72,63,.5), 0 0 0 10px rgba(214,72,63,.12);}
 }
+/* ---------- reservation form (contact page) ---------- */
+.res-form{
+  background:rgba(251,245,234,.05);
+  border:1px solid rgba(251,245,234,.14);
+  border-radius:24px;
+  padding:34px clamp(20px,3vw,36px);
+  margin-top:40px;
+}
+.res-form > p.res-title{
+  font-family:'Fraunces',serif;
+  font-size:1.2rem;
+  color:#fff;
+  margin-bottom:24px;
+}
+.res-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+.res-field{display:flex; flex-direction:column; gap:6px;}
+.res-field.full{grid-column:1 / -1;}
+.res-field label{
+  font-size:.72rem; text-transform:uppercase; letter-spacing:.1em;
+  color:var(--teal); font-weight:700;
+}
+.res-field input, .res-field select, .res-field textarea{
+  font-family:'Work Sans', sans-serif;
+  background:rgba(251,245,234,.08);
+  border:1px solid rgba(251,245,234,.2);
+  border-radius:10px;
+  padding:12px 14px;
+  color:#fff;
+  font-size:.92rem;
+}
+.res-field input::placeholder, .res-field textarea::placeholder{color:rgba(251,245,234,.4);}
+.res-field input:focus, .res-field select:focus, .res-field textarea:focus{
+  outline:none; border-color:var(--mustard);
+}
+.res-field select option{color:#000;}
+.res-form button[type="submit"]{
+  margin-top:22px;
+  border:none; cursor:pointer;
+  font-family:inherit;
+}
+.res-msg{margin-top:16px; font-size:.88rem; font-weight:600;}
+.res-msg.ok{color:var(--teal);}
+.res-msg.err{color:var(--coral);}
+
+@media (max-width:640px){
+  .res-grid{grid-template-columns:1fr;}
+}
