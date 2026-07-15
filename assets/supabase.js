@@ -72,6 +72,18 @@ async function connexionAdmin(email, motDePasse) {
   return { success: true, data };
 }
 
+async function demanderResetMotDePasse(email, urlRedirection) {
+  const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+    redirectTo: urlRedirection,
+  });
+  return { success: !error, error };
+}
+
+async function mettreAJourMotDePasse(nouveauMotDePasse) {
+  const { error } = await supabaseClient.auth.updateUser({ password: nouveauMotDePasse });
+  return { success: !error, error };
+}
+
 async function deconnexionAdmin() {
   await supabaseClient.auth.signOut();
 }
