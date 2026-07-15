@@ -54,3 +54,83 @@ async function creerReservation(reservation) {
   }
   return { success: true, data };
 }
+
+// ============================================================
+// Ce qui suit n'est utilisé que par admin.html (espace hôtelier).
+// Ces fonctions nécessitent d'être connecté : les règles de
+// sécurité (RLS) les bloquent pour un visiteur non authentifié.
+// ============================================================
+
+// -------------------- Connexion admin --------------------
+
+async function connexionAdmin(email, motDePasse) {
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password: motDePasse,
+  });
+  if (error) return { success: false, error };
+  return { success: true, data };
+}
+
+async function deconnexionAdmin() {
+  await supabaseClient.auth.signOut();
+}
+
+async function sessionAdmin() {
+  const { data } = await supabaseClient.auth.getSession();
+  return data.session;
+}
+
+// -------------------- Réservations (admin) --------------------
+
+async function getToutesReservations() {
+  const { data, error } = await supabaseClient
+    .from("reservations")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Erreur chargement réservations :", error);
+    return [];
+  }
+  return data;
+}
+
+async function majStatutReservation(id, statut) {
+  const { error } = await supabaseClient
+    .from("reservations")
+    .update({ statut })
+    .eq("id", id);
+
+  return { success: !error, error };
+}
+
+// -------------------- Chambres (admin) --------------------
+
+async function majChambre(id, champs) {
+  const { error } = await supabaseClient
+    .from("chambres")
+    .update(champs)
+    .eq("id", id);
+
+  return { success: !error, error };
+}
+
+async function uploaderPhotoChambre(fichier, chambreId) {
+  const extension = fichier.name.split('.').pop();
+  const chemin = `${chambreId}-${Date.now()}.${extension}`;
+
+  const { error: uploadError } = await supabaseClient
+    .storage
+    .from("chambres-photos")
+    .upload(chemin, fichier, { upsert: true });
+
+  if (uploadError) return { success: false, error: uploadError };
+
+  const { data } = supabaseClient
+    .storage
+    .from("chambres-photos")
+    .getPublicUrl(chemin);
+
+  return { success: true, url: data.publicUrl };
+}
