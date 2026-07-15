@@ -65,6 +65,47 @@
         </div>
         <a href="mailto:sephorahotelbouafle01@gmail.com" class="btn btn-coral btn-wide">Envoyer un e-mail</a>
 
+        <form id="reservationForm" class="res-form reveal">
+          <p class="res-title">Demander une réservation</p>
+          <div class="res-grid">
+            <div class="res-field">
+              <label for="res-nom">Nom complet</label>
+              <input type="text" id="res-nom" name="nom" placeholder="Votre nom" required>
+            </div>
+            <div class="res-field">
+              <label for="res-tel">Téléphone</label>
+              <input type="tel" id="res-tel" name="telephone" placeholder="07 00 00 00 00" required>
+            </div>
+            <div class="res-field full">
+              <label for="res-email">E-mail (optionnel)</label>
+              <input type="email" id="res-email" name="email" placeholder="vous@exemple.com">
+            </div>
+            <div class="res-field full">
+              <label for="res-chambre">Chambre souhaitée</label>
+              <select id="res-chambre" name="chambre">
+                <option value="">Peu importe / à discuter</option>
+                <option value="Chambre Teck">Chambre Teck</option>
+                <option value="Chambre Émeraude">Chambre Émeraude</option>
+                <option value="Chambre Confort">Chambre Confort</option>
+              </select>
+            </div>
+            <div class="res-field">
+              <label for="res-arrivee">Date d'arrivée</label>
+              <input type="date" id="res-arrivee" name="date_arrivee">
+            </div>
+            <div class="res-field">
+              <label for="res-depart">Date de départ</label>
+              <input type="date" id="res-depart" name="date_depart">
+            </div>
+            <div class="res-field full">
+              <label for="res-message">Message (optionnel)</label>
+              <textarea id="res-message" name="message" rows="3" placeholder="Précisions sur votre séjour…"></textarea>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-coral btn-wide">Envoyer la demande</button>
+          <p id="res-feedback" class="res-msg"></p>
+        </form>
+
         <div class="map-embed reveal">
           <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=-5.8000%2C6.9700%2C-5.7200%2C7.0400&layer=mapnik&marker=7.0122%2C-5.7444" title="Localisation de Sephora Hotel à Bouaflé" loading="lazy"></iframe>
         </div>
@@ -109,6 +150,40 @@
 </footer>
 
 <a href="tel:+2250703051376" class="float-call" aria-label="Appeler l'hôtel">📞</a>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/supabase.js"></script>
+<script>
+const reservationForm = document.getElementById('reservationForm');
+const feedback = document.getElementById('res-feedback');
+
+reservationForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  feedback.textContent = 'Envoi en cours…';
+  feedback.className = 'res-msg';
+
+  const formData = new FormData(reservationForm);
+  const reservation = {
+    nom: formData.get('nom'),
+    telephone: formData.get('telephone'),
+    email: formData.get('email') || null,
+    chambre: formData.get('chambre') || null,
+    date_arrivee: formData.get('date_arrivee') || null,
+    date_depart: formData.get('date_depart') || null,
+    message: formData.get('message') || null,
+  };
+
+  const result = await creerReservation(reservation);
+
+  if (result.success) {
+    feedback.textContent = 'Merci ! Votre demande a bien été envoyée, nous vous recontactons rapidement.';
+    feedback.className = 'res-msg ok';
+    reservationForm.reset();
+  } else {
+    feedback.textContent = "Une erreur est survenue. Appelez-nous directement au 07 03 05 13 76.";
+    feedback.className = 'res-msg err';
+  }
+});
+</script>
 <script src="assets/main.js"></script>
 </body>
 </html>
