@@ -29,6 +29,18 @@
     <button type="submit" class="admin-btn">Se connecter</button>
     <p id="loginErr" class="err"></p>
   </form>
+  <button id="showForgotBtn" class="admin-link-btn">Mot de passe oublié ?</button>
+
+  <form id="forgotForm" style="display:none;">
+    <p class="sub" style="margin-bottom:16px;">Entrez votre e-mail, un lien de réinitialisation vous sera envoyé.</p>
+    <div class="field">
+      <label for="forgot-email">E-mail</label>
+      <input type="email" id="forgot-email" required autocomplete="username">
+    </div>
+    <button type="submit" class="admin-btn">Envoyer le lien</button>
+    <p id="forgotMsg" class="err"></p>
+  </form>
+  <button id="backToLoginBtn" class="admin-link-btn" style="display:none;">Retour à la connexion</button>
 </div>
 
 <!-- ---------- Espace admin (affiché après connexion) ---------- -->
@@ -95,6 +107,44 @@ loginForm.addEventListener('submit', async (e) => {
 document.getElementById('logoutBtn').addEventListener('click', async () => {
   await deconnexionAdmin();
   afficherEcranSelonSession();
+});
+
+// -------------------- Mot de passe oublié --------------------
+
+const forgotForm = document.getElementById('forgotForm');
+const forgotMsg = document.getElementById('forgotMsg');
+
+document.getElementById('showForgotBtn').addEventListener('click', () => {
+  loginForm.style.display = 'none';
+  document.getElementById('showForgotBtn').style.display = 'none';
+  forgotForm.style.display = 'block';
+  document.getElementById('backToLoginBtn').style.display = 'block';
+});
+
+document.getElementById('backToLoginBtn').addEventListener('click', () => {
+  forgotForm.style.display = 'none';
+  document.getElementById('backToLoginBtn').style.display = 'none';
+  loginForm.style.display = 'block';
+  document.getElementById('showForgotBtn').style.display = 'block';
+  forgotMsg.textContent = '';
+});
+
+forgotForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  forgotMsg.className = 'err';
+  forgotMsg.textContent = 'Envoi en cours…';
+
+  const email = document.getElementById('forgot-email').value.trim();
+  const urlRedirection = window.location.origin + window.location.pathname.replace('admin.html', 'reset-password.html');
+
+  const result = await demanderResetMotDePasse(email, urlRedirection);
+  if (result.success) {
+    forgotMsg.style.color = 'var(--teal)';
+    forgotMsg.textContent = 'Lien envoyé ! Vérifiez votre boîte mail (et les spams).';
+  } else {
+    forgotMsg.style.color = 'var(--coral)';
+    forgotMsg.textContent = "Impossible d'envoyer le lien. Vérifiez l'e-mail.";
+  }
 });
 
 // -------------------- Onglets --------------------
